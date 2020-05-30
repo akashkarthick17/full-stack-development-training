@@ -1,0 +1,36 @@
+
+ --TODO application--
+
+ 1. Add an item to the list.
+ 2. Remove an item from the list.
+ 3. Update an item to the list.
+ 4. Fetch list.
+
+ --Fetch todo list--
+  
+  GET /todo-list
+
+  GET /todo-list?filter=java
+
+  GET /todo-list/:id
+
+--Remove an item from the list--
+
+  DELETE /todo-list/:id
+
+--Add an item to the list--
+
+  POST /todo-list
+
+    BODY  {
+            "title": "first note"
+          }
+
+--Update an item to the list--
+
+  PUT /todo-list/:id
+
+    BODY  {
+            "title": "first note - updated"
+          }
+
