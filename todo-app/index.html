@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App</title>
+</head>
+
+<body>
+
+  <input type="text" name="todo-input" id="todo-input-id" value="" />
+  <button id="add-button">Add</button>
+
+  <ol id="todo-list">
+  </ol>
+
+</body>
+<script type="application/javascript">
+
+
+  var todoList = document.getElementById("todo-list");
+
+  document.addEventListener("click", function (event) {
+    if (event.target.getAttribute("data-id")) {
+      deleteItem(event.target.id);
+    }
+  });
+
+
+  var addButton = document.getElementById("add-button");
+
+  addButton.addEventListener("click", (event) => {
+    var inputValue = document.getElementById("todo-input-id").value;
+    addItem(inputValue);
+  });
+
+
+  const addItem = (id, value) => {
+    var listElement = document.createElement("li");
+    var textSpan = document.createElement("span");
+    var textNode = document.createTextNode(value);
+    var deleteSpan = document.createElement("button");
+    var deleteTextNode = document.createTextNode("Delete");
+
+    // Set class attribute
+    listElement.setAttribute("class", "item-list");
+
+    var items = todoList.getElementsByClassName("item-list");
+
+    // Set id attribute.
+    deleteSpan.setAttribute("id", id);
+    deleteSpan.setAttribute("data-id", "button");
+
+    textSpan.appendChild(textNode);
+    deleteSpan.appendChild(deleteTextNode);
+
+    listElement.appendChild(textSpan)
+    listElement.appendChild(deleteSpan);
+
+    todoList.appendChild(listElement);
+  }
+
+  const deleteItem = (id) => {
+    var deleteItem = document.getElementById(id);
+    todoList.removeChild(deleteItem.parentElement);
+
+    fetch(`http://localhost:3000/todo-list/${id}`, {
+      method: 'DELETE'
+    }).then(res => console.log(res));
+  }
+
+  const getList = () => {
+    fetch('http://localhost:3000/todo-list').then(res => {
+      return res.json();
+    }).then(jsonResponse => {
+
+      const results = jsonResponse.results;
+
+      for (let index = 0; index < results.length; index++) {
+        const item = results[index]; // id, title, isComplete
+        addItem(item.id, item.title);
+      }
+    });
+  }
+
+  getList();
+
+
+</script>
+
+</html>
