@@ -23,7 +23,8 @@
   POST /todo-list
 
     BODY  {
-            "title": "first note"
+            "title": "first note",
+            "isCompleted": false,
           }
 
 --Update an item to the list--
@@ -31,6 +32,7 @@
   PUT /todo-list/:id
 
     BODY  {
-            "title": "first note - updated"
+            "title": "first note - updated",
+            "isCompleted": true,
           }
 
